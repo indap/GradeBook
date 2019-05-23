@@ -11,14 +11,60 @@ namespace GradeBook
             // Program.Main(args); 
 
             var book = new Book("Indap's grade book");
-            book.AddGrade(6.2);
-            book.AddGrade(24.8);
-            book.AddGrade(35.6);
+
+            // var done = false;
+            
+            // while(!done)
+            // {
+            //     Console.WriteLine("Enter a grade or 'q' to quit");
+            //     var input = Console.ReadLine();
+                
+            //     if(input == "q")
+            //     {
+            //         done = true;
+            //         continue;
+            //     }
+
+            //     var grade = double.Parse(input);
+
+            // }
+
+            
+            while(true)
+            {
+                Console.WriteLine("Enter a grade or 'q' to quit");
+                var input = Console.ReadLine();
+                
+                if(input == "q")
+                {
+                    break;
+                }
+                
+                try
+                {
+                var grade = double.Parse(input);
+                book.AddGrade(grade);
+                }
+                catch(ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch(FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    Console.WriteLine("**");
+                }
+            }
 
             var stats = book.GetStatistics();
+ 
             Console.WriteLine($"Average result is {stats.Average:N1}.");
             Console.WriteLine($"Highest grade is {stats.High}.");
             Console.WriteLine($"Lowest grade is {stats.Low}.");
+            Console.WriteLine($"The letter grade is {stats.Letter}");
 
            /*
             double x = 21;
