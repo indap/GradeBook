@@ -10,20 +10,18 @@ namespace GradeBook
             // var p = new Program();
             // Program.Main(args); 
 
-            var book = new Book("Indap's grade book");
+            IBook book = new DiskBook("Indap's grade book");
             book.GradeAdded += OnGradeAdded;
-            book.GradeAdded += OnGradeAdded;
-            book.GradeAdded -= OnGradeAdded;
-            book.GradeAdded += OnGradeAdded;
+
 
 
             // var done = false;
-            
+
             // while(!done)
             // {
             //     Console.WriteLine("Enter a grade or 'q' to quit");
             //     var input = Console.ReadLine();
-                
+
             //     if(input == "q")
             //     {
             //         done = true;
@@ -34,50 +32,22 @@ namespace GradeBook
 
             // }
 
-            
-            while(true)
-            {
-                Console.WriteLine("Enter a grade or 'q' to quit");
-                var input = Console.ReadLine();
-                
-                if(input == "q")
-                {
-                    break;
-                }
-                
-                try
-                {
-                var grade = double.Parse(input);
-                book.AddGrade(grade);
-                }
-                catch(ArgumentException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                catch(FormatException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                finally
-                {
-                    Console.WriteLine("**");
-                }
-            }
+
+            EnterGrades(book);
 
             var stats = book.GetStatistics();
 
-            Console.WriteLine(Book.CATEGORY);
             Console.WriteLine($"For the book named {book.Name}");
             Console.WriteLine($"Average result is {stats.Average:N1}.");
             Console.WriteLine($"Highest grade is {stats.High}.");
             Console.WriteLine($"Lowest grade is {stats.Low}.");
             Console.WriteLine($"The letter grade is {stats.Letter}");
 
-           /*
-            double x = 21;
-            double y = 2;
-            double result = x * y;
-            Console.WriteLine(result); */ 
+            /*
+             double x = 21;
+             double y = 2;
+             double result = x * y;
+             Console.WriteLine(result); */
 
             //var numbers = new double[] {2.1, 4.4, 5.6}; //
             /* OR var numbers = new[]  */
@@ -114,6 +84,38 @@ namespace GradeBook
             // Console.WriteLine($"Lowest grade is {lowGrade}.");
 
 
+        }
+
+        private static void EnterGrades(IBook book)
+        {
+            while (true)
+            {
+                Console.WriteLine("Enter a grade or 'q' to quit");
+                var input = Console.ReadLine();
+
+                if (input == "q")
+                {
+                    break;
+                }
+
+                try
+                {
+                    var grade = double.Parse(input);
+                    book.AddGrade(grade);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    Console.WriteLine("**");
+                }
+            }
         }
 
         static void OnGradeAdded(object sender, EventArgs e)
